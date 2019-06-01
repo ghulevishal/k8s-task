@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  labels:
+    app: elastic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elastic
+      version: "6.4.0"
+  template:
+    metadata:
+      labels:
+        app: elastic
+        version: "6.4.0"
+    spec:
+      containers:
+      - name: elastic
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.0
+        env:
+        - name: "discovery.type"
+          value: "single-node"
+        ports:
+        - containerPort: 9200
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: elastic
+spec:
+  type: NodePort
+  selector:
+    app: elastic
+    version: "6.4.0"
+  ports:
+  - protocol: TCP
+    port: 9200
+    targetPort: 9200
