@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: es-cluster
-  namespace: kube-logging
 spec:
   serviceName: elasticsearch
   replicas: 3
@@ -81,7 +80,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: elasticsearch
-  namespace: kube-logging
   labels:
     app: elasticsearch
 spec:
