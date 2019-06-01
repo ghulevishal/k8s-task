@@ -40,11 +40,43 @@ prometheus-server               NodePort    10.96.194.14    <none>        80:304
 
 Now try to access the Prometheus UI by using Pulic IP and NodePort. 
 
+
+## Install Grafana Helm chart
+
+```command
+helm install --name grafana --set service.type=NodePort stable/grafana
+```
+
+- Get the list of the Pods.
+
+```command
+kubectl get pods | grep grafana
+```
+```
+grafana-57bb579f79-dzz5w                         1/1     Running   0          27s
+```
+
+- List the grafan service
+
+```command
+kubectl get svc | grep grafana
+```
+```
+grafana                         NodePort    10.97.144.71     <none>        80:31037/TCP   69s
+```
+
+- Get the password for Grafana dashboard
+
+```command
+kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+Using the `admin` as username and above derived password you can login to Grafana dashboard using nodeport and public ip.
 ## Clean UP.
 
 - Remove the Helm release and all its components.
 
 ```
-helm del --purge prometheus
+helm del --purge prometheus grafana
 ```
 
