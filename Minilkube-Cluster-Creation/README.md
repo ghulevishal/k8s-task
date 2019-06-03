@@ -41,3 +41,8 @@ kubectl apply -f helm-rbac.yaml
 helm init --service-account tiller
 ```
 
+- Install Ingress.
+
+```command
+minikube addons enable ingress
+```
